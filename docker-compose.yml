@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: nest_admin
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: nest_main
+  main:
+    build: ./backend-main
+    ports:
+      - 3001:3001
+    depends_on:
+      - mongo
+  admin:
+    build: ./backend-admin
+    ports:
+      - 3000:3000
+    depends_on:
+      - mysql
